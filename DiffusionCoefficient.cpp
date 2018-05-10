@@ -21,6 +21,7 @@ double mass = 1;
 double beta = 1;
 double dt = 0.1;
 double TrapStrength = 4;
+//double DampingVal = 0.3011942;
 double DampingVal = 0.25;
 
 void Langevin(double * time, double * position, double * velocity);
