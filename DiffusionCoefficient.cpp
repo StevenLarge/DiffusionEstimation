@@ -20,11 +20,13 @@ double GaussRandom;
 double mass = 1;
 double beta = 1;
 double dt = 0.1;
+double TrapStrength = 4;
 double DampingVal = 0.25;
 
 void Langevin(double * time, double * position, double * velocity);
 double DiffusionCoeff(double * Trajectory, int Length);
 void WriteDiffusionData(string WriteName, double * Diffusion, int * SampleLength, int DataPoints);
+double ForceParticle(double position);
 
 int main(){
 	
@@ -77,14 +79,24 @@ void Langevin(double * time, double * position, double * velocity){
 	GaussRandom = d(gen);
 
 	*velocity = sqrt(DampingVal)*(*velocity) + sqrt((1-DampingVal)/(beta*mass))*GaussRandom;
+	//*velocity = *velocity + 0.5*dt*ForceParticle(*position)/mass;
 	*position = *position + 0.5*dt*(*velocity);
 
 	GaussRandom = d(gen);
 
 	*position = *position + 0.5*dt*(*velocity);
+	//*velocity = *velocity + 0.5*dt*ForceParticle(*position)/mass;
 	*velocity = sqrt(DampingVal)*(*velocity) + sqrt((1-DampingVal)/(beta*mass))*GaussRandom;
 
 }
+
+double ForceParticle(double position){
+
+	double F = -TrapStrength*(position);
+
+	return F;
+}
+
 
 double DiffusionCoeff(double * Trajectory, int Length){
 
